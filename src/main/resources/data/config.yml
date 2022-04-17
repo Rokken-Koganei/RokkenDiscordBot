@@ -1,0 +1,8 @@
+# System environment variables: ENV
+# yml file: YML
+source: "ENV"
+bot-token: "BOT_TOKEN"
+database-url: "DATABASE_URL"
+database-name: "DATABASE_NAME"
+database-user: "DATABASE_USER"
+database-password: "DATABASE_PASSWORD"
