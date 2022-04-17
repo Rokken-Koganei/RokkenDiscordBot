@@ -14,8 +14,16 @@ class DiscordMain {
     fun start() {
         try {
             //Login
-            jda = JDABuilder.createLight(botToken, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
-                .addEventListeners(DiscordCommand())
+            jda = JDABuilder
+                .createLight(
+                    botToken,
+                    GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS,
+                    GatewayIntent.DIRECT_MESSAGE_REACTIONS, GatewayIntent.DIRECT_MESSAGES
+                )
+                .addEventListeners(
+                    DiscordCommand(),
+                    DiscordJoin()
+                )
                 .setActivity(Activity.playing("作業"))
                 .build()
         } catch (e: LoginException) {
