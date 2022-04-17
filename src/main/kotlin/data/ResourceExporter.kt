@@ -8,7 +8,7 @@ import java.util.jar.JarFile
 
 class ResourceExporter {
     companion object {
-        private val logger = org.slf4j.LoggerFactory.getLogger(ResourceExporter::class.java)
+        private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
         /**
          * jar内ファイルを書き出す
