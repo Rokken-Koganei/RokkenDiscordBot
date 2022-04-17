@@ -2,11 +2,11 @@ package data
 
 class DataManager {
     companion object {
-        private lateinit var BOT_TOKEN: String
-        private lateinit var DATABASE_URL: String
-        private lateinit var DATABASE_NAME: String
-        private lateinit var DATABASE_USERNAME: String
-        private lateinit var DATABASE_PASSWORD: String
+        private var BOT_TOKEN = ""
+        private var DATABASE_URL = ""
+        private var DATABASE_NAME = ""
+        private var DATABASE_USERNAME = ""
+        private var DATABASE_PASSWORD = ""
 
         fun initializeEnv() {
             BOT_TOKEN = System.getenv("BOT_TOKEN")
