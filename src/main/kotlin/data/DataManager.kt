@@ -12,7 +12,7 @@ class DataManager {
             BOT_TOKEN = System.getenv("BOT_TOKEN")
             DATABASE_URL = System.getenv("DATABASE_URL")
             DATABASE_NAME = System.getenv("DATABASE_NAME")
-            DATABASE_USERNAME = System.getenv("DATABASE_USERNAME")
+            DATABASE_USERNAME = System.getenv("DATABASE_USER")
             DATABASE_PASSWORD = System.getenv("DATABASE_PASSWORD")
         }
 

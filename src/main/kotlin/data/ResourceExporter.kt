@@ -21,7 +21,7 @@ class ResourceExporter {
                     logger.info("Exporting yml files...")
 
                     file.mkdir()
-                    saveResource("data", file)
+                    saveResource("config", file)
 
                     logger.info("Done.")
                 }
