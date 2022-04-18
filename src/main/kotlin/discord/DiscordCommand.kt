@@ -15,7 +15,7 @@ class DiscordCommand : ListenerAdapter() {
         //チャットが打たれたチャンネル取得
         val channel = event.channel
 
-        when(msg.contentRaw){
+        when (msg.contentRaw) {
             commandPrefix + "hello" -> { //!helloの時
                 //メッセージ送信
                 channel.sendMessage(event.member!!.effectiveName + "さん、こんにちは！").queue()
@@ -27,10 +27,10 @@ class DiscordCommand : ListenerAdapter() {
                     }
             }
 
-            commandPrefix + "exit" -> { //!exitの時
-                channel.sendMessage("プログラムを終了します。").queue()
-                exitProcess(0)
-            }
+//            commandPrefix + "exit" -> { //!exitの時
+//                channel.sendMessage("プログラムを終了します。").queue()
+//                exitProcess(0)
+//            }
         }
 
     }
