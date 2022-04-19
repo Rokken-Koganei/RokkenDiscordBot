@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.Role
 
 class RoleManager {
     companion object {
-        const val MEMBER = ""
+        const val MEMBER = "965964943616798740"
         const val PRE_MEMBER = "965268862016835594"
 
         const val GRADE_1 = "965235111731814420"
