@@ -3,7 +3,6 @@ package discord
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import kotlin.system.exitProcess
 
 class DiscordCommand : ListenerAdapter() {
     private val commandPrefix = "!"
@@ -26,12 +25,6 @@ class DiscordCommand : ListenerAdapter() {
                         response.editMessageFormat("Pong: %d ms", System.currentTimeMillis() - time).queue()
                     }
             }
-
-//            commandPrefix + "exit" -> { //!exitの時
-//                channel.sendMessage("プログラムを終了します。").queue()
-//                exitProcess(0)
-//            }
         }
-
     }
 }
