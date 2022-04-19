@@ -55,7 +55,7 @@ class ThirdReactionListener: ListenerAdapter() {
         }
 
         if (selected) {
-            event.channel.sendMessage("答えてくださってありがとうございました！\n楽しんでください！").queue()
+            event.channel.sendMessage("答えてくださってありがとうございました！\n必ずサーバー内の #readme を読んでください！\nそれでは、楽しんでください！").queue()
         }
     }
 }
