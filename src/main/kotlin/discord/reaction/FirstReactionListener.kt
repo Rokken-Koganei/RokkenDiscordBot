@@ -18,8 +18,8 @@ class FirstReactionListener : ListenerAdapter()  {
         val guild = DiscordJoin.joinedGuild
         val roleManager = RoleManager()
 
-        // 仮入部
-        val role = guild.getRoleById("965268862016835594")
+        val member = guild.getRoleById(RoleManager.MEMBER)
+        val preMember = guild.getRoleById(RoleManager.PRE_MEMBER)
 
         val message = event.channel.retrieveMessageById(event.messageId).complete()
 
@@ -27,10 +27,11 @@ class FirstReactionListener : ListenerAdapter()  {
 
         if (event.reactionEmote.name == "⭕") { // o
             roleManager.deleteMessage(message)
+            RoleManager().addRole(guild, user!!.id, member!!)
             selected = true
         } else if (event.reactionEmote.name == "❌") { // x
             roleManager.deleteMessage(message)
-            RoleManager().addRole(guild, user!!.id, role!!)
+            RoleManager().addRole(guild, user!!.id, preMember!!)
             selected = true
         }
 

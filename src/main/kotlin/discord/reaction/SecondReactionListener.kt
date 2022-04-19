@@ -19,10 +19,10 @@ class SecondReactionListener: ListenerAdapter() {
         val roleManager = RoleManager()
 
         // 学年
-        val grade1 = guild.getRoleById("965235111731814420")
-        val grade2 = guild.getRoleById("965235093348180039")
-        val grade3 = guild.getRoleById("965235074813526056")
-        val grade4 = guild.getRoleById("965235055142273094")
+        val grade1 = guild.getRoleById(RoleManager.GRADE_1)
+        val grade2 = guild.getRoleById(RoleManager.GRADE_2)
+        val grade3 = guild.getRoleById(RoleManager.GRADE_3)
+        val grade4 = guild.getRoleById(RoleManager.GRADE_4)
 
         val message = event.channel.retrieveMessageById(event.messageId).complete()
 

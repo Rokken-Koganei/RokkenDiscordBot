@@ -16,11 +16,11 @@ class ThirdReactionListener: ListenerAdapter() {
         val roleManager = RoleManager()
 
         // 学年
-        val vo = guild.getRoleById("965235976114942034")
-        val gt = guild.getRoleById("965235822800568320")
-        val dr = guild.getRoleById("965235713777995856")
-        val ba = guild.getRoleById("965235743125536789")
-        val key = guild.getRoleById("965235681767096320")
+        val vo = guild.getRoleById(RoleManager.VOCAL)
+        val gt = guild.getRoleById(RoleManager.GUITAR)
+        val dr = guild.getRoleById(RoleManager.DRUM)
+        val ba = guild.getRoleById(RoleManager.BASE)
+        val key = guild.getRoleById(RoleManager.KEY)
 
         val message = event.channel.retrieveMessageById(event.messageId).complete()
 
