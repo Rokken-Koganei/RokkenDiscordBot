@@ -25,13 +25,17 @@ class DiscordAdminCommand: ListenerAdapter() {
         val command = "/admin"
 
         if (msg[0] != command) return
-        if (msg.size < 3) {
+        if (msg.size < 2) {
             event.channel.sendMessage("コマンドが正しくありません。\ntype: /admin help").queue()
             return
         }
 
         when (msg[1]) {
             "add" -> { // /admin add の時
+                if (msg.size < 3) {
+                    event.channel.sendMessage("コマンドが正しくありません。\ntype: /admin help").queue()
+                    return
+                }
                 val userId = msg[2].substring(2, msg[2].length - 1)
                 event.guild.loadMembers().onSuccess { members ->
                     val member = members.find { it.user.id == userId }!!
@@ -45,6 +49,10 @@ class DiscordAdminCommand: ListenerAdapter() {
             }
 
             "del" -> { // /admin add の時
+                if (msg.size < 3) {
+                    event.channel.sendMessage("コマンドが正しくありません。\ntype: /admin help").queue()
+                    return
+                }
                 val userId = msg[2].substring(2, msg[2].length - 1)
                 event.guild.loadMembers().onSuccess { members ->
                     val member = members.find { it.user.id == userId }!!
@@ -54,6 +62,10 @@ class DiscordAdminCommand: ListenerAdapter() {
             }
 
             "first" -> {
+                if (msg.size < 3) {
+                    event.channel.sendMessage("コマンドが正しくありません。\ntype: /admin help").queue()
+                    return
+                }
                 DiscordJoin.joinedGuild = guild
                 val userId = msg[2].substring(2, msg[2].length - 1)
                 event.guild.loadMembers().onSuccess { members ->
