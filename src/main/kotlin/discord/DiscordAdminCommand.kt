@@ -85,13 +85,13 @@ class DiscordAdminCommand: ListenerAdapter() {
 
         embed.setColor(Color.GREEN)
 
-        embed.setTitle("/admin コマンドの使い方")
-        embed.setDescription("/admin <option> <userId> \n<option> には以下のいずれかを入れてください。\n<userId> には @人の名前 を入れてください。")
+        embed.setTitle("`/admin` コマンドの使い方")
+        embed.setDescription("`/admin <option>`\n\n**__このコマンドは幹部しか使用できません。__**\n<option> には以下のいずれかを入れてください。\n<userId> には <@人の名前> を入れてください。")
 
-        embed.addField("add", "/admin add <userId> confirm : 幹部権限を指定ユーザーに付与します。", false)
-        embed.addField("del", "/admin del <userId> : 幹部権限を指定ユーザーから剥奪します。", false)
-        embed.addField("first", "/admin first <userId> : 指定ユーザーに初期設定文を DM に送りつけます。", false)
-        embed.addField("help", "/admin help : この文章を表示します。", false)
+        embed.addField("`add <userId> confirm`", "幹部権限を指定ユーザーに付与します。", true)
+        embed.addField("`del <userId>`", "幹部権限を指定ユーザーから剥奪します。", true)
+        embed.addField("`first <userId>`", "指定ユーザーに初期設定文を DM に送りつけます。", true)
+        embed.addField("`help`", "コマンドヘルプを表示します。", true)
 
         return embed.build()
     }
