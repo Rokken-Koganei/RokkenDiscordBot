@@ -49,7 +49,7 @@ class ThirdReactionListener: ListenerAdapter() {
 
         if (selected) {
             roleManager.deleteLatestMessage(event.channel)
-            event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の #readme を読んでください！__\nそれでは、楽しんでください！").complete()
+            event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！").complete()
         }
     }
 }
