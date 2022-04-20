@@ -22,40 +22,34 @@ class ThirdReactionListener: ListenerAdapter() {
         val ba = guild.getRoleById(RoleManager.BASE)
         val key = guild.getRoleById(RoleManager.KEY)
 
-        val message = event.channel.retrieveMessageById(event.messageId).complete()
-
         var selected = false
 
         when (event.reactionEmote.name) {
             "🎤" -> {
                 roleManager.addRole(guild, user!!.id, vo!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "🎸" -> {
                 roleManager.addRole(guild, user!!.id, gt!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "🥁" -> {
                 roleManager.addRole(guild, user!!.id, dr!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "🪕" -> {
                 roleManager.addRole(guild, user!!.id, ba!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "🎹" -> {
                 roleManager.addRole(guild, user!!.id, key!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
         }
 
         if (selected) {
-            event.channel.sendMessage("答えてくださってありがとうございました！\n必ずサーバー内の #readme を読んでください！\nそれでは、楽しんでください！").queue()
+            roleManager.deleteLatestMessage(event.channel)
+            event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の #readme を読んでください！__\nそれでは、楽しんでください！").complete()
         }
     }
 }

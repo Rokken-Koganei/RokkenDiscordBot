@@ -21,29 +21,27 @@ class FirstReactionListener : ListenerAdapter()  {
         val member = guild.getRoleById(RoleManager.MEMBER)
         val preMember = guild.getRoleById(RoleManager.PRE_MEMBER)
 
-        val message = event.channel.retrieveMessageById(event.messageId).complete()
-
         var selected = false
 
-        if (event.reactionEmote.name == "⭕") { // o
-            roleManager.deleteMessage(message)
-            RoleManager().addRole(guild, user!!.id, member!!)
-            selected = true
-        } else if (event.reactionEmote.name == "❌") { // x
-            roleManager.deleteMessage(message)
-            RoleManager().addRole(guild, user!!.id, preMember!!)
-            selected = true
+        when (event.reactionEmote.name) {
+            "⭕" -> {
+                RoleManager().addRole(guild, user!!.id, member!!)
+                selected = true
+            }
+            "❌" -> {
+                RoleManager().addRole(guild, user!!.id, preMember!!)
+                selected = true
+            }
         }
 
         if (selected) {
-            event.channel.let { channel ->
-                channel.sendMessageEmbeds(createEmbed()).queue {
-                    it.addReaction("1️⃣").queue()
-                    it.addReaction("2️⃣").queue()
-                    it.addReaction("3️⃣").queue()
-                    it.addReaction("4️⃣").queue()
-                    it.jda.addEventListener(SecondReactionListener())
-                }
+            roleManager.deleteLatestMessage(event.channel)
+            event.channel.sendMessageEmbeds(createEmbed()).queue {
+                it.addReaction("1️⃣").queue()
+                it.addReaction("2️⃣").queue()
+                it.addReaction("3️⃣").queue()
+                it.addReaction("4️⃣").queue()
+                it.jda.addEventListener(SecondReactionListener())
             }
         }
     }

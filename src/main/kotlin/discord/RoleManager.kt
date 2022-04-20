@@ -1,9 +1,6 @@
 package discord
 
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.entities.Member
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.Role
+import net.dv8tion.jda.api.entities.*
 
 class RoleManager {
     companion object {
@@ -40,7 +37,10 @@ class RoleManager {
         guild.removeRoleFromMember(user, role).queue()
     }
 
-    fun deleteMessage(message: Message) {
-        message.delete().queue()
+    fun deleteLatestMessage(channel: MessageChannel) {
+        val history = MessageHistory(channel)
+        val msg = history.retrievePast(1).complete()
+
+        channel.deleteMessageById(msg[0].id).complete()
     }
 }

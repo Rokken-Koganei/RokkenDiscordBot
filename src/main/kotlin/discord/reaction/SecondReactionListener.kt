@@ -24,34 +24,29 @@ class SecondReactionListener: ListenerAdapter() {
         val grade3 = guild.getRoleById(RoleManager.GRADE_3)
         val grade4 = guild.getRoleById(RoleManager.GRADE_4)
 
-        val message = event.channel.retrieveMessageById(event.messageId).complete()
-
         var selected = false
 
         when (event.reactionEmote.name) {
             "1️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade1!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "2️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade2!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "3️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade3!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
             "4️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade4!!)
-                roleManager.deleteMessage(message)
                 selected = true
             }
         }
 
         if (selected) {
+            roleManager.deleteLatestMessage(event.channel)
             event.channel.sendMessageEmbeds(createEmbed()).queue {
                 it.addReaction("🎤").queue()
                 it.addReaction("🎸").queue()
@@ -62,7 +57,6 @@ class SecondReactionListener: ListenerAdapter() {
             }
         }
     }
-
 
     private fun createEmbed(): MessageEmbed {
         val embed = EmbedBuilder()
