@@ -1,8 +1,11 @@
 package discord
 
 import discord.message.FirstMessage
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import java.awt.Color
 
 class DiscordAdminCommand: ListenerAdapter() {
     override fun onMessageReceived(event: MessageReceivedEvent) {
@@ -58,6 +61,26 @@ class DiscordAdminCommand: ListenerAdapter() {
                     FirstMessage().firstMessage(member.user)
                 }
             }
+
+            "help" -> {
+                event.channel.sendMessageEmbeds(helpEmbed()).complete()
+            }
         }
+    }
+
+    private fun helpEmbed(): MessageEmbed {
+        val embed = EmbedBuilder()
+
+        embed.setColor(Color.GREEN)
+
+        embed.setTitle("/admin コマンドの使い方")
+        embed.setDescription("/admin <option> <userId> \n<option> には以下のいずれかを入れてください。\n<userId> には @人の名前 を入れてください。")
+
+        embed.addField("add", "/admin add <userId> confirm : 幹部権限を指定ユーザーに付与します。", false)
+        embed.addField("del", "/admin del <userId> : 幹部権限を指定ユーザーから剥奪します。", false)
+        embed.addField("first", "/admin first <userId> : 指定ユーザーに初期設定文を DM に送りつけます。", false)
+        embed.addField("help", "/admin help : この文章を表示します。", false)
+
+        return embed.build()
     }
 }
