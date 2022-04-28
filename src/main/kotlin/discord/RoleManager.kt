@@ -39,7 +39,6 @@ class RoleManager {
     }
 
     fun deleteBotMessages(channel: MessageChannel) {
-        println("Deleting messages...")
         runBlocking {
             val history = MessageHistory(channel)
             history.retrievePast(100).queue { messages ->
@@ -49,7 +48,6 @@ class RoleManager {
                 }
             }
         }
-        println("Messages deleted.")
     }
 
     fun deleteLatestMessage(channel: MessageChannel) {
