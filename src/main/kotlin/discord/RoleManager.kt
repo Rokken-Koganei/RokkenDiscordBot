@@ -1,5 +1,6 @@
 package discord
 
+import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.entities.*
 
 class RoleManager {
@@ -35,6 +36,20 @@ class RoleManager {
 
     fun delRole(guild: Guild, user: Member, role: Role) {
         guild.removeRoleFromMember(user, role).queue()
+    }
+
+    fun deleteBotMessages(channel: MessageChannel) {
+        println("Deleting messages...")
+        runBlocking {
+            val history = MessageHistory(channel)
+            history.retrievePast(100).queue { messages ->
+                messages.forEach {
+                    if (it.author.isBot)
+                        it.delete().queue()
+                }
+            }
+        }
+        println("Messages deleted.")
     }
 
     fun deleteLatestMessage(channel: MessageChannel) {

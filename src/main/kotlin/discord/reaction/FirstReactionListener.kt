@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.awt.Color
 
 class FirstReactionListener : ListenerAdapter()  {
+    private var first = true
+
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         val user = event.user
 
@@ -21,29 +23,32 @@ class FirstReactionListener : ListenerAdapter()  {
         val member = guild.getRoleById(RoleManager.MEMBER)
         val preMember = guild.getRoleById(RoleManager.PRE_MEMBER)
 
-        var selected = false
-
         when (event.reactionEmote.name) {
             "⭕" -> {
                 RoleManager().addRole(guild, user!!.id, member!!)
-                selected = true
+                selected(roleManager, event)
             }
             "❌" -> {
                 RoleManager().addRole(guild, user!!.id, preMember!!)
-                selected = true
+                selected(roleManager, event)
             }
+        }
+    }
+
+    private fun selected(roleManager: RoleManager, event: MessageReactionAddEvent) {
+        if (!first) return
+
+        roleManager.deleteLatestMessage(event.channel)
+        event.channel.sendMessageEmbeds(createEmbed()).queue {
+            it.addReaction("1️⃣").queue()
+            it.addReaction("2️⃣").queue()
+            it.addReaction("3️⃣").queue()
+            it.addReaction("4️⃣").queue()
+            it.jda.addEventListener(SecondReactionListener())
+            it.jda.removeEventListener(this)
         }
 
-        if (selected) {
-            roleManager.deleteLatestMessage(event.channel)
-            event.channel.sendMessageEmbeds(createEmbed()).queue {
-                it.addReaction("1️⃣").queue()
-                it.addReaction("2️⃣").queue()
-                it.addReaction("3️⃣").queue()
-                it.addReaction("4️⃣").queue()
-                it.jda.addEventListener(SecondReactionListener())
-            }
-        }
+        first = false
     }
 
     private fun createEmbed(): MessageEmbed {

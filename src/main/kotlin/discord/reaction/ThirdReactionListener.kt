@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 class ThirdReactionListener: ListenerAdapter() {
+    private var first = true
+
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         val user = event.user
 
@@ -22,34 +24,38 @@ class ThirdReactionListener: ListenerAdapter() {
         val ba = guild.getRoleById(RoleManager.BASE)
         val key = guild.getRoleById(RoleManager.KEY)
 
-        var selected = false
-
         when (event.reactionEmote.name) {
             "🎤" -> {
                 roleManager.addRole(guild, user!!.id, vo!!)
-                selected = true
+                selected(roleManager, event)
             }
             "🎸" -> {
                 roleManager.addRole(guild, user!!.id, gt!!)
-                selected = true
+                selected(roleManager, event)
             }
             "🥁" -> {
                 roleManager.addRole(guild, user!!.id, dr!!)
-                selected = true
+                selected(roleManager, event)
             }
             "🪕" -> {
                 roleManager.addRole(guild, user!!.id, ba!!)
-                selected = true
+                selected(roleManager, event)
             }
             "🎹" -> {
                 roleManager.addRole(guild, user!!.id, key!!)
-                selected = true
+                selected(roleManager, event)
             }
         }
+    }
 
-        if (selected) {
-            roleManager.deleteLatestMessage(event.channel)
-            event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！").complete()
+    private fun selected(roleManager: RoleManager, event: MessageReactionAddEvent) {
+        if (!first) return
+
+        roleManager.deleteLatestMessage(event.channel)
+        event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！").queue {
+            it.jda.removeEventListener(this)
         }
+
+        first = false
     }
 }

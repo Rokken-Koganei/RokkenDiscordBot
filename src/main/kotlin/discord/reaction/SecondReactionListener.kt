@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.awt.Color
 
 class SecondReactionListener: ListenerAdapter() {
+    private var first = true
+
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         val user = event.user
 
@@ -24,38 +26,41 @@ class SecondReactionListener: ListenerAdapter() {
         val grade3 = guild.getRoleById(RoleManager.GRADE_3)
         val grade4 = guild.getRoleById(RoleManager.GRADE_4)
 
-        var selected = false
-
         when (event.reactionEmote.name) {
             "1️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade1!!)
-                selected = true
+                selected(roleManager, event)
             }
             "2️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade2!!)
-                selected = true
+                selected(roleManager, event)
             }
             "3️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade3!!)
-                selected = true
+                selected(roleManager, event)
             }
             "4️⃣" -> {
                 roleManager.addRole(guild, user!!.id, grade4!!)
-                selected = true
+                selected(roleManager, event)
             }
+        }
+    }
+
+    private fun selected(roleManager: RoleManager, event: MessageReactionAddEvent) {
+        if (!first) return
+
+        roleManager.deleteLatestMessage(event.channel)
+        event.channel.sendMessageEmbeds(createEmbed()).queue {
+            it.addReaction("🎤").queue()
+            it.addReaction("🎸").queue()
+            it.addReaction("🥁").queue()
+            it.addReaction("🪕").queue()
+            it.addReaction("🎹").queue()
+            it.jda.addEventListener(ThirdReactionListener())
+            it.jda.removeEventListener(this)
         }
 
-        if (selected) {
-            roleManager.deleteLatestMessage(event.channel)
-            event.channel.sendMessageEmbeds(createEmbed()).queue {
-                it.addReaction("🎤").queue()
-                it.addReaction("🎸").queue()
-                it.addReaction("🥁").queue()
-                it.addReaction("🪕").queue()
-                it.addReaction("🎹").queue()
-                it.jda.addEventListener(ThirdReactionListener())
-            }
-        }
+        first = false
     }
 
     private fun createEmbed(): MessageEmbed {
