@@ -22,7 +22,8 @@ class RoleManager {
         const val ADMIN = "965234118730342480"
     }
 
-    fun addRole(guild: Guild, user: String, role: Role) {
+    fun addRole(guild: Guild, userStr: String, role: Role) {
+        val user = guild.getMemberById(userStr)!!
         guild.addRoleToMember(user, role).queue()
     }
 
@@ -30,7 +31,8 @@ class RoleManager {
         guild.addRoleToMember(user, role).queue()
     }
 
-    fun delRole(guild: Guild, user: String, role: Role) {
+    fun delRole(guild: Guild, userStr: String, role: Role) {
+        val user = guild.getMemberById(userStr)!!
         guild.removeRoleFromMember(user, role).queue()
     }
 
