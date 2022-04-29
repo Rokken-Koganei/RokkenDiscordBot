@@ -1,5 +1,7 @@
-package discord
+package discord.command
 
+import discord.DiscordJoin
+import discord.RoleManager
 import discord.message.FirstMessage
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed

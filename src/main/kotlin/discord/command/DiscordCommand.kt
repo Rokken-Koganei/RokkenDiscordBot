@@ -1,4 +1,4 @@
-package discord
+package discord.command
 
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent

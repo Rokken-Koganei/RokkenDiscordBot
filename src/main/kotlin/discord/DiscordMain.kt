@@ -1,6 +1,8 @@
 package discord
 
 import data.DataManager
+import discord.command.DiscordAdminCommand
+import discord.command.DiscordCommand
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
