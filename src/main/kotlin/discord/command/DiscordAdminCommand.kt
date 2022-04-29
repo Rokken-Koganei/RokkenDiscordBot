@@ -36,6 +36,8 @@ class DiscordAdminCommand: ListenerAdapter() {
         )
     }
 
+    private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
+
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
         // 鯖からのメッセージ以外は受け付けない
         if (!event.isFromGuild) return
@@ -81,6 +83,8 @@ class DiscordAdminCommand: ListenerAdapter() {
 
             else -> event.reply("不明なコマンドです。\n/admin help でヘルプを表示します。").setEphemeral(true).queue()
         }
+
+        logger.info("${event.user.name} issued ${event.commandString}")
     }
 
     private fun helpEmbed(): MessageEmbed {
