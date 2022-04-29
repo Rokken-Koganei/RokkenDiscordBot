@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+
+<configuration>
+
+<!--  コンソール出力設定  -->
+<!--  [23:23:23] [Class] [Thread/INFO]: message /n -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+    <!--  メッセージフォーマット  -->
+        <withJansi>false</withJansi>
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%t/%highlight(%-5level)]: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--  logファイル書き出し設定(一定周期で自動書き出し)  -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/latest.log</file>
+
+    <!--  周期設定 %d{}内の最後の桁に合わせて周期が組まれる ... %&d{mm.ss} -> 1sごと  -->
+    <!--  .zipとか.gzにすると自動圧縮される  -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyy.MM, aux}/%d{yyyy.MM.dd_HH}.log.zip</fileNamePattern>
+        </rollingPolicy>
+
+    <!--  メッセージフォーマット  -->
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%c] [%t/%p]: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
