@@ -27,22 +27,20 @@ class ThirdReactionListener: ListenerAdapter() {
         when (event.reactionEmote.name) {
             "🎤" -> {
                 roleManager.addRole(guild, user!!.id, vo!!)
-                selected(roleManager, event)
             }
             "🎸" -> {
                 roleManager.addRole(guild, user!!.id, gt!!)
-                selected(roleManager, event)
             }
             "🥁" -> {
                 roleManager.addRole(guild, user!!.id, dr!!)
-                selected(roleManager, event)
             }
             "🪕" -> {
                 roleManager.addRole(guild, user!!.id, ba!!)
-                selected(roleManager, event)
             }
             "🎹" -> {
                 roleManager.addRole(guild, user!!.id, key!!)
+            }
+            "❌" -> {
                 selected(roleManager, event)
             }
         }
