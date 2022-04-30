@@ -60,13 +60,13 @@ class DiscordAdminCommand: ListenerAdapter() {
             SUBCOMMAND_ADD -> {
                 val member = event.options[0].asMember!!
                 RoleManager().addRole(guild, member, admin)
-                event.reply("$member を幹部にしました。").queue()
+                event.reply("<@${member.id}> を幹部にしました。").queue()
             }
 
             SUBCOMMAND_DEL -> {
                 val member = event.options[0].asMember!!
                 RoleManager().delRole(guild, member, admin)
-                event.reply("$member を幹部から除外しました。").queue()
+                event.reply("<@${member.id}> を幹部から除外しました。").queue()
             }
 
             SUBCOMMAND_FIRST -> {
@@ -74,7 +74,7 @@ class DiscordAdminCommand: ListenerAdapter() {
 
                 val user = event.options[0].asUser
                 FirstMessage().firstMessage(user)
-                event.reply("$user に、初期設定分を送信しました。").setEphemeral(true).queue()
+                event.reply("<@${user.id}> に、初期設定文を送信しました。").setEphemeral(true).queue()
             }
 
             SUBCOMMAND_HELP -> event.replyEmbeds(helpEmbed()).setEphemeral(true).queue()
