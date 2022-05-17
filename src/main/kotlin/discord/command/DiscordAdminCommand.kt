@@ -39,14 +39,10 @@ class DiscordAdminCommand: ListenerAdapter() {
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        // 鯖からのメッセージ以外は受け付けない
-        if (!event.isFromGuild) return
+        if (CheckPermission.hasCommandPermission(event, RoleManager.ADMIN)) return
 
-        val guild = event.guild
-        val admin = guild!!.getRoleById(RoleManager.ADMIN)!!
-
-        // ロールが幹部でなければ無視
-        if (!event.member!!.roles.contains(admin)) return
+        val guild = event.guild!!
+        val admin = guild.getRoleById(RoleManager.ADMIN)!!
 
         // admin command のみを受け付ける
         if (event.name != COMMAND_NAME) return
