@@ -3,6 +3,7 @@ package discord
 import data.DataManager
 import discord.command.DiscordAdminCommand
 import discord.command.DiscordCommand
+import discord.command.DiscordMemberCommand
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
@@ -11,7 +12,6 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.MemberCachePolicy
 import javax.security.auth.login.LoginException
-import kotlin.math.log
 
 class DiscordMain {
     private val botToken = DataManager.getBotToken()
@@ -52,8 +52,14 @@ class DiscordMain {
         val adminCommand = Commands.slash(DiscordAdminCommand.COMMAND_NAME, "幹部用コマンド")
             .addSubcommands(DiscordAdminCommand.SUB_CMD_LIST)
 
+        val memberCommand = Commands.slash(DiscordMemberCommand.COMMAND_NAME, "部員用コマンド")
+            .addSubcommands(DiscordMemberCommand.SUB_CMD_LIST)
+
         guild.updateCommands()
-            .addCommands(adminCommand)
+            .addCommands(
+                adminCommand,
+                memberCommand
+            )
             .queue()
 
         logger.info("commands added!")
