@@ -40,6 +40,14 @@ class RoleManager {
         guild.removeRoleFromMember(user, role).queue()
     }
 
+    fun delInstRole(guild: Guild, user: Member) {
+        for (role in user.roles) {
+            if (role.id == VOCAL || role.id == GUITAR || role.id == DRUM || role.id == BASE || role.id == KEY) {
+                guild.removeRoleFromMember(user, role).queue()
+            }
+        }
+    }
+
     fun deleteBotMessages(channel: MessageChannel) {
         runBlocking {
             val history = MessageHistory(channel)
