@@ -1,11 +1,15 @@
 package discord.reaction
 
-import discord.DiscordJoin
+import discord.DiscordMain
 import discord.RoleManager
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 class RoleSelectReactionListener: ListenerAdapter() {
+    companion object {
+        var isReset = false
+    }
+
     private var first = true
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
@@ -14,7 +18,7 @@ class RoleSelectReactionListener: ListenerAdapter() {
         // bot が追加してたら何もしない
         if (event.user!!.isBot) return
 
-        val guild = DiscordJoin.joinedGuild
+        val guild = DiscordMain.rokkenGuild
         val roleManager = RoleManager()
 
         // 学年
@@ -50,10 +54,17 @@ class RoleSelectReactionListener: ListenerAdapter() {
         if (!first) return
 
         roleManager.deleteLatestMessage(event.channel)
-        event.channel.sendMessage("**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！").queue {
+
+        var sendText = "**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！"
+        if (isReset) {
+            sendText = "楽器ロールの再選択が完了しました！"
+        }
+
+        event.channel.sendMessage(sendText).queue {
             it.jda.removeEventListener(this)
         }
 
+        isReset = false
         first = false
     }
 }

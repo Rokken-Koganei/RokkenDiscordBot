@@ -3,20 +3,21 @@ package discord.message
 import discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
+import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 
 class RoleMessage {
-    fun send(event: MessageReactionAddEvent) {
-        event.channel.sendMessageEmbeds(createEmbed()).queue {
-            it.addReaction("🎤").queue()
-            it.addReaction("🎸").queue()
-            it.addReaction("🥁").queue()
-            it.addReaction("🪕").queue()
-            it.addReaction("🎹").queue()
-            it.addReaction("❌").queue()
-            it.jda.addEventListener(RoleSelectReactionListener())
-            it.jda.removeEventListener(this)
+    fun send(user: User) {
+        user.openPrivateChannel().queue { channel ->
+            channel.sendMessageEmbeds(createEmbed()).queue {
+                it.addReaction("🎤").queue()
+                it.addReaction("🎸").queue()
+                it.addReaction("🥁").queue()
+                it.addReaction("🪕").queue()
+                it.addReaction("🎹").queue()
+                it.addReaction("❌").queue()
+                it.jda.addEventListener(RoleSelectReactionListener())
+            }
         }
     }
 
