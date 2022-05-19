@@ -39,7 +39,7 @@ class DiscordAdminCommand: ListenerAdapter() {
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        if (CheckPermission.hasCommandPermission(event, RoleManager.ADMIN)) return
+        if (!CheckPermission.hasCommandPermission(event, RoleManager.ADMIN)) return
 
         val guild = event.guild!!
         val admin = guild.getRoleById(RoleManager.ADMIN)!!
