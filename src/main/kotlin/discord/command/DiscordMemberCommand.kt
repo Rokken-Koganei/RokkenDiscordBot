@@ -1,6 +1,8 @@
 package discord.command
 
 import discord.RoleManager
+import discord.message.RoleMessage
+import discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
@@ -38,8 +40,10 @@ class DiscordMemberCommand: ListenerAdapter() {
 
         when (event.subcommandName) {
             SUBCOMMAND_RESET -> {
-                val member = event.options[0].asMember!!
+                val member = event.member!!
                 RoleManager().delInstRole(guild, member)
+                RoleMessage().send(member.user)
+                RoleSelectReactionListener.isReset = true
                 event.reply("<@${member.id}> の DM へロール選択テキストを送信しました。").setEphemeral(true).queue()
             }
 
