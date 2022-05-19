@@ -30,6 +30,7 @@ class DiscordMain {
                 .addEventListeners(
                     DiscordCommand(),
                     DiscordAdminCommand(),
+                    DiscordMemberCommand(),
                     DiscordJoin()
                 )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
