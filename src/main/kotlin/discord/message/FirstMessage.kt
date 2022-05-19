@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 
 class FirstMessage {
-    fun firstMessage(user: User) {
+    fun send(user: User) {
         user.openPrivateChannel().queue { channel ->
             RoleManager().deleteBotMessages(channel)
             channel.sendMessage("**__ロッ研オンライン部室へようこそ！__**\nこの部室は、交流の場を作りたいという願いのもと、作られました！\nこれから、いくつか質問に答えてくださると助かります！").queue()
@@ -25,11 +25,11 @@ class FirstMessage {
 
         embed.setColor(Color.GREEN)
 
-        embed.setTitle("現在部員ですか？")
+        embed.setTitle("部員届をすでに提出済みですか？")
         embed.setDescription("リアクションをクリックまたはタップして、質問に答えてください！")
 
-        embed.addField("部員または入部予定", ":o: を選択", false)
-        embed.addField("部員ではないが興味がある", ":x: を選択", false)
+        embed.addField("提出済みである (部員)", ":o: を選択", false)
+        embed.addField("提出済みでない (新歓等)", ":x: を選択", false)
 
         return embed.build()
     }

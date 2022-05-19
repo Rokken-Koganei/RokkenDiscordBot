@@ -69,7 +69,7 @@ class DiscordAdminCommand: ListenerAdapter() {
                 DiscordJoin.joinedGuild = guild
 
                 val user = event.options[0].asUser
-                FirstMessage().firstMessage(user)
+                FirstMessage().send(user)
                 event.reply("<@${user.id}> に、初期設定文を送信しました。").setEphemeral(true).queue()
             }
 

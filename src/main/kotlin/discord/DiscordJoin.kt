@@ -14,6 +14,6 @@ class DiscordJoin : ListenerAdapter() {
         val user = event.user
         joinedGuild = event.guild
 
-        FirstMessage().firstMessage(user)
+        FirstMessage().send(user)
     }
 }
