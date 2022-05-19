@@ -1,6 +1,6 @@
 package discord.reaction
 
-import discord.DiscordJoin
+import discord.DiscordMain
 import discord.RoleManager
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -17,7 +17,7 @@ class FirstReactionListener : ListenerAdapter()  {
         // bot が追加してたら何もしない
         if (event.user!!.isBot) return
 
-        val guild = DiscordJoin.joinedGuild
+        val guild = DiscordMain.rokkenGuild
         val roleManager = RoleManager()
 
         val member = guild.getRoleById(RoleManager.MEMBER)

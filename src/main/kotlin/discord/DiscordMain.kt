@@ -14,6 +14,9 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy
 import javax.security.auth.login.LoginException
 
 class DiscordMain {
+    companion object {
+        lateinit var rokkenGuild: Guild
+    }
     private val botToken = DataManager.getBotToken()
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
     private lateinit var jda: JDA
@@ -40,7 +43,8 @@ class DiscordMain {
             jda.awaitReady()
             logger.info("DiscordBot is ready!")
 
-            addCommand(jda.getGuildById(965233617800413265)!!)
+            rokkenGuild = jda.getGuildById(965233617800413265)!!
+            addCommand(rokkenGuild)
 
         } catch (e: LoginException) {
             e.printStackTrace()

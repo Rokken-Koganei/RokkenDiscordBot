@@ -1,6 +1,6 @@
 package discord.reaction
 
-import discord.DiscordJoin
+import discord.DiscordMain
 import discord.RoleManager
 import discord.message.RoleMessage
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
@@ -15,7 +15,7 @@ class GradeSelectReactionListener: ListenerAdapter() {
         // bot が追加してたら何もしない
         if (event.user!!.isBot) return
 
-        val guild = DiscordJoin.joinedGuild
+        val guild = DiscordMain.rokkenGuild
         val roleManager = RoleManager()
 
         // 学年
@@ -48,7 +48,8 @@ class GradeSelectReactionListener: ListenerAdapter() {
         if (!first) return
 
         roleManager.deleteLatestMessage(event.channel)
-        RoleMessage().send(event)
+        RoleMessage().send(event.user!!)
+        event.jda.removeEventListener(this)
 
         first = false
     }
