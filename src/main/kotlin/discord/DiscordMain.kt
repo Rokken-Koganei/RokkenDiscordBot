@@ -41,11 +41,11 @@ class DiscordMain {
                 .build()
 
             jda.awaitReady()
-            logger.info("DiscordBot is ready!")
 
             rokkenGuild = jda.getGuildById(965233617800413265)!!
             addCommand(rokkenGuild)
 
+            logger.info("DiscordBot is ready!")
         } catch (e: LoginException) {
             e.printStackTrace()
         }
