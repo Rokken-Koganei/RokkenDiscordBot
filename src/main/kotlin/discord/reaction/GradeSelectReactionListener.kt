@@ -2,13 +2,11 @@ package discord.reaction
 
 import discord.DiscordJoin
 import discord.RoleManager
-import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.MessageEmbed
+import discord.message.RoleMessage
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import java.awt.Color
 
-class SecondReactionListener: ListenerAdapter() {
+class GradeSelectReactionListener: ListenerAdapter() {
     private var first = true
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
@@ -50,35 +48,8 @@ class SecondReactionListener: ListenerAdapter() {
         if (!first) return
 
         roleManager.deleteLatestMessage(event.channel)
-        event.channel.sendMessageEmbeds(createEmbed()).queue {
-            it.addReaction("🎤").queue()
-            it.addReaction("🎸").queue()
-            it.addReaction("🥁").queue()
-            it.addReaction("🪕").queue()
-            it.addReaction("🎹").queue()
-            it.addReaction("❌").queue()
-            it.jda.addEventListener(ThirdReactionListener())
-            it.jda.removeEventListener(this)
-        }
+        RoleMessage().send(event)
 
         first = false
-    }
-
-    private fun createEmbed(): MessageEmbed {
-        val embed = EmbedBuilder()
-
-        embed.setColor(Color.GREEN)
-
-        embed.setTitle("希望楽器は何ですか？")
-        embed.setDescription("リアクションをクリックまたはタップして、質問に答えてください！\n選択が終了したら、:x: を選択してください。")
-
-        embed.addField("Vo.", ":microphone: を選択", true)
-        embed.addField("Gt.", ":guitar: を選択", true)
-        embed.addField("Dr.", ":drum: を選択", true)
-        embed.addField("Ba.", ":banjo: を選択", true)
-        embed.addField("Key.", ":musical_keyboard: を選択", true)
-        embed.addField("終了", ":x: を選択", true)
-
-        return embed.build()
     }
 }

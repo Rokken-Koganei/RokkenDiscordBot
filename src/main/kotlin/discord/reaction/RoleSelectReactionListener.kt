@@ -5,7 +5,7 @@ import discord.RoleManager
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-class ThirdReactionListener: ListenerAdapter() {
+class RoleSelectReactionListener: ListenerAdapter() {
     private var first = true
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {

@@ -44,7 +44,7 @@ class FirstReactionListener : ListenerAdapter()  {
             it.addReaction("2️⃣").queue()
             it.addReaction("3️⃣").queue()
             it.addReaction("4️⃣").queue()
-            it.jda.addEventListener(SecondReactionListener())
+            it.jda.addEventListener(GradeSelectReactionListener())
             it.jda.removeEventListener(this)
         }
 
