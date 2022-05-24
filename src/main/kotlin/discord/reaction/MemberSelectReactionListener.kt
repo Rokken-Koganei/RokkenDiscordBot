@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.awt.Color
 
-class FirstReactionListener : ListenerAdapter()  {
+class MemberSelectReactionListener : ListenerAdapter()  {
     private var first = true
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {

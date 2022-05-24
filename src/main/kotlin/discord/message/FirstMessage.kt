@@ -1,7 +1,7 @@
 package discord.message
 
 import discord.RoleManager
-import discord.reaction.FirstReactionListener
+import discord.reaction.MemberSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User
@@ -15,7 +15,7 @@ class FirstMessage {
             channel.sendMessageEmbeds(createEmbed()).queue {
                 it.addReaction("⭕").queue()
                 it.addReaction("❌").queue()
-                it.jda.addEventListener(FirstReactionListener())
+                it.jda.addEventListener(MemberSelectReactionListener())
             }
         }
     }
