@@ -9,6 +9,7 @@ import java.awt.Color
 
 class FirstMessage {
     fun send(user: User) {
+        MemberSelectReactionListener.queue.add(user)
         user.openPrivateChannel().queue { channel ->
             RoleManager().deleteBotMessages(channel)
             channel.sendMessage("**__ロッ研オンライン部室へようこそ！__**\nこの部室は、交流の場を作りたいという願いのもと、作られました！\nこれから、いくつか質問に答えてくださると助かります！").queue()

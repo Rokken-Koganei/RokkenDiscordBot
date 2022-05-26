@@ -2,21 +2,24 @@ package discord.reaction
 
 import discord.DiscordMain
 import discord.RoleManager
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 class RoleSelectReactionListener: ListenerAdapter() {
     companion object {
+        val queue = ArrayList<User>()
+
         var isReset = false
     }
-
-    private var first = true
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         val user = event.user
 
         // bot が追加してたら何もしない
         if (event.user!!.isBot) return
+        // キューの中にそのユーザーがいるかどうか
+        if (!queue.contains(user)) return
 
         val guild = DiscordMain.rokkenGuild
         val roleManager = RoleManager()
@@ -51,8 +54,6 @@ class RoleSelectReactionListener: ListenerAdapter() {
     }
 
     private fun selected(roleManager: RoleManager, event: MessageReactionAddEvent) {
-        if (!first) return
-
         roleManager.deleteLatestMessage(event.channel)
 
         var sendText = "**__答えてくださってありがとうございました！__**\n__必ずサーバー内の <#965608973527035994> を読んでください！__\nそれでは、楽しんでください！"
@@ -60,11 +61,10 @@ class RoleSelectReactionListener: ListenerAdapter() {
             sendText = "楽器ロールの再選択が完了しました！"
         }
 
-        event.channel.sendMessage(sendText).queue {
-            it.jda.removeEventListener(this)
-        }
+        event.channel.sendMessage(sendText).queue()
 
         isReset = false
-        first = false
+        val user = event.user!!
+        queue.remove(user)
     }
 }

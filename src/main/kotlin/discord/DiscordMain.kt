@@ -4,8 +4,12 @@ import data.DataManager
 import discord.command.DiscordAdminCommand
 import discord.command.DiscordCommand
 import discord.command.DiscordMemberCommand
+import discord.reaction.GradeSelectReactionListener
+import discord.reaction.MemberSelectReactionListener
+import discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.interactions.commands.build.Commands
@@ -34,10 +38,14 @@ class DiscordMain {
                     DiscordCommand(),
                     DiscordAdminCommand(),
                     DiscordMemberCommand(),
-                    DiscordJoin()
+                    DiscordJoin(),
+                    MemberSelectReactionListener(),
+                    GradeSelectReactionListener(),
+                    RoleSelectReactionListener()
                 )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
-                .setActivity(Activity.playing("作業"))
+                .setActivity(Activity.competing("ロッ研"))
+                .setStatus(OnlineStatus.ONLINE)
                 .build()
 
             jda.awaitReady()

@@ -44,6 +44,7 @@ class DiscordMemberCommand: ListenerAdapter() {
                 RoleManager().delInstRole(guild, member)
                 RoleMessage().send(member.user)
                 RoleSelectReactionListener.isReset = true
+                RoleSelectReactionListener.queue.add(member.user)
                 event.reply("<@${member.id}> の DM へロール選択テキストを送信しました。").setEphemeral(true).queue()
             }
 
