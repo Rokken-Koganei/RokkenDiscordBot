@@ -16,7 +16,8 @@ class GradeSelectReactionListener: ListenerAdapter() {
         val user = event.user
 
         // bot が追加してたら何もしない
-        if (event.user!!.isBot) return
+        val isBot = user?.isBot ?: true // null check
+        if (isBot) return
         // キューの中にそのユーザーがいるかどうか
         if (!queue.contains(user)) return
 
