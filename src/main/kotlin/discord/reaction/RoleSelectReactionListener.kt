@@ -63,6 +63,8 @@ class RoleSelectReactionListener: ListenerAdapter() {
 
         event.channel.sendMessage(sendText).queue()
 
+        RoleManager().delRole(event.guild, event.member!!, event.guild.getRoleById(RoleManager.UNANSWERED)!!)
+
         isReset = false
         val user = event.user!!
         queue.remove(user)
