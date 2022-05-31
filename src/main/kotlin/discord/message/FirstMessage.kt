@@ -16,7 +16,6 @@ class FirstMessage {
             channel.sendMessageEmbeds(createEmbed()).queue {
                 it.addReaction("⭕").queue()
                 it.addReaction("❌").queue()
-                it.jda.addEventListener(MemberSelectReactionListener())
             }
         }
     }
