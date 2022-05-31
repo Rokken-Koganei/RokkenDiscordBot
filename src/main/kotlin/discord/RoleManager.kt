@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.*
 
 class RoleManager {
     companion object {
+        const val UNANSWERED = "981120045608501249"
         const val MEMBER = "965964943616798740"
         const val PRE_MEMBER = "965268862016835594"
 
