@@ -38,6 +38,7 @@ class RoleManager {
     }
 
     fun delRole(guild: Guild, user: Member, role: Role) {
+        if (!user.roles.contains(role)) return
         guild.removeRoleFromMember(user, role).queue()
     }
 

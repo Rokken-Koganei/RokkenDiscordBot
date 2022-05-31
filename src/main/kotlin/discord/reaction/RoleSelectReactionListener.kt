@@ -64,7 +64,7 @@ class RoleSelectReactionListener: ListenerAdapter() {
 
         event.channel.sendMessage(sendText).queue()
 
-        RoleManager().delRole(event.guild, event.member!!, event.guild.getRoleById(RoleManager.UNANSWERED)!!)
+        RoleManager().delRole(DiscordMain.rokkenGuild, event.userId, DiscordMain.rokkenGuild.getRoleById(RoleManager.UNANSWERED)!!)
 
         isReset = false
         val user = event.user!!
