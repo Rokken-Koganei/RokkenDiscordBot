@@ -1,7 +1,7 @@
-package discord.reaction
+package com.rokken.discord.reaction
 
-import discord.DiscordMain
-import discord.RoleManager
+import com.rokken.discord.DiscordMain
+import com.rokken.discord.RoleManager
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter

@@ -1,7 +1,7 @@
-package discord.command
+package com.rokken.discord.command
 
-import discord.RoleManager
-import discord.message.FirstMessage
+import com.rokken.discord.RoleManager
+import com.rokken.discord.message.FirstMessage
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent

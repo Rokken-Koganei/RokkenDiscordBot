@@ -1,7 +1,7 @@
-package discord.message
+package com.rokken.discord.message
 
-import discord.RoleManager
-import discord.reaction.MemberSelectReactionListener
+import com.rokken.discord.RoleManager
+import com.rokken.discord.reaction.MemberSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User

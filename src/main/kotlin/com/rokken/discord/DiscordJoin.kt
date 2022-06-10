@@ -1,6 +1,6 @@
-package discord
+package com.rokken.discord
 
-import discord.message.FirstMessage
+import com.rokken.discord.message.FirstMessage
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 

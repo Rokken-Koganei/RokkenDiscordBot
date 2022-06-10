@@ -1,8 +1,8 @@
-package discord.command
+package com.rokken.discord.command
 
-import discord.RoleManager
-import discord.message.RoleMessage
-import discord.reaction.RoleSelectReactionListener
+import com.rokken.discord.RoleManager
+import com.rokken.discord.message.RoleMessage
+import com.rokken.discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent

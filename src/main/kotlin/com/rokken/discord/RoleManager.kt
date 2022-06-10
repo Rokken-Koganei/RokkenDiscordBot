@@ -1,4 +1,4 @@
-package discord
+package com.rokken.discord
 
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.entities.*

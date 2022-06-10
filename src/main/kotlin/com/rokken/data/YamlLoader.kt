@@ -1,4 +1,4 @@
-package data
+package com.rokken.data
 
 import org.yaml.snakeyaml.Yaml
 import java.io.File
@@ -25,7 +25,7 @@ class YamlLoader {
                 return
             }
 
-            logger.info("Loading data from yml...")
+            logger.info("Loading com.rokken.data from yml...")
             val botToken = data["bot-token"]!!.toString()
 
             val databaseUrl = data["database-url"]!!.toString()

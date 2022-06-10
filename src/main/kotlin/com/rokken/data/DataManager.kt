@@ -1,4 +1,4 @@
-package data
+package com.rokken.data
 
 class DataManager {
     companion object {

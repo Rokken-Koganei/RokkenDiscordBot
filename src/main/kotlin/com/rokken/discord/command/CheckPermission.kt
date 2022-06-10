@@ -1,4 +1,4 @@
-package discord.command
+package com.rokken.discord.command
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 

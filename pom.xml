@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>RokkenDiscordBot</artifactId>
-    <groupId>rokken-koganei</groupId>
+    <groupId>com.rokken</groupId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -26,7 +26,6 @@
 
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -73,7 +72,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Mainkt.class</mainClass>
+                            <mainClass>com.rokken.MainKt.class</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

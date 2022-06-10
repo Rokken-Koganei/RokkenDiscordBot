@@ -1,6 +1,8 @@
-import data.ResourceExporter
-import data.YamlLoader
-import discord.DiscordMain
+package com.rokken
+
+import com.rokken.data.ResourceExporter
+import com.rokken.data.YamlLoader
+import com.rokken.discord.DiscordMain
 import java.io.File
 
 class Main {

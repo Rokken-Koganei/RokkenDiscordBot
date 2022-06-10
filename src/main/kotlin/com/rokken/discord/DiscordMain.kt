@@ -1,12 +1,12 @@
-package discord
+package com.rokken.discord
 
-import data.DataManager
-import discord.command.DiscordAdminCommand
-import discord.command.DiscordCommand
-import discord.command.DiscordMemberCommand
-import discord.reaction.GradeSelectReactionListener
-import discord.reaction.MemberSelectReactionListener
-import discord.reaction.RoleSelectReactionListener
+import com.rokken.data.DataManager
+import com.rokken.discord.command.DiscordAdminCommand
+import com.rokken.discord.command.DiscordCommand
+import com.rokken.discord.command.DiscordMemberCommand
+import com.rokken.discord.reaction.GradeSelectReactionListener
+import com.rokken.discord.reaction.MemberSelectReactionListener
+import com.rokken.discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
