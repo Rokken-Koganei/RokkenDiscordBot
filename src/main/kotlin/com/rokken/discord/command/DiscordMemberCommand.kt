@@ -7,18 +7,26 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.commands.OptionType
+import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import java.awt.Color
 
 class DiscordMemberCommand: ListenerAdapter() {
     companion object {
+        const val QUESTION_CHANNEL = 983646310693498890
         const val COMMAND_NAME = "member"
 
         const val SUBCOMMAND_RESET = "reset"
+        const val SUBCOMMAND_QUESTION = "question"
         const val SUBCOMMAND_HELP = "help"
+
+        private val questionOption = OptionData(OptionType.STRING, "question", "質問内容")
 
         val SUB_CMD_LIST = mutableListOf(
             SubcommandData(SUBCOMMAND_RESET, "楽器ロールをリセットして再選択する。"),
+            SubcommandData(SUBCOMMAND_QUESTION, "質問箱に匿名で質問を投げれます。")
+                .addOptions(questionOption),
             SubcommandData(SUBCOMMAND_HELP, "部員コマンドのヘルプを表示する。")
         )
     }
@@ -46,6 +54,13 @@ class DiscordMemberCommand: ListenerAdapter() {
                 RoleSelectReactionListener.isReset = true
                 RoleSelectReactionListener.queue.add(member.user)
                 event.reply("<@${member.id}> の DM へロール選択テキストを送信しました。").setEphemeral(true).queue()
+            }
+
+            SUBCOMMAND_QUESTION -> {
+                val message = event.options[0].asString
+                val channel = guild.getTextChannelById(QUESTION_CHANNEL)!!
+                channel.sendMessage(message).queue()
+                event.reply("質問箱に質問を投げました。").setEphemeral(true).queue()
             }
 
             SUBCOMMAND_HELP -> event.replyEmbeds(helpEmbed()).setEphemeral(true).queue()
