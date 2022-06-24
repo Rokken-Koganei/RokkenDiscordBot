@@ -8,6 +8,7 @@ import com.rokken.google.Connector
 import com.rokken.google.DateTimeManager
 import com.rokken.google.calendar.GetEvent
 import com.rokken.google.calendar.SetEvent
+import com.rokken.reminder.ReminderMain
 import java.io.File
 
 class Main {
@@ -24,8 +25,10 @@ class Main {
         ResourceExporter.export()
         YamlLoader.load(DIR_PATH + File.separator + "config.yml")
         val discordMain = DiscordMain()
+        val reminderMain = ReminderMain()
 
-        discordMain.start()
+//        discordMain.start()
+        reminderMain.start()
     }
 
     private val keyFilePath = "tutorial/key.json"
