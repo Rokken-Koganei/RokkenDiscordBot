@@ -1,5 +1,7 @@
 package com.rokken.discord.command
 
+import com.rokken.discord.DiscordMain
+import com.rokken.discord.DiscordMigration
 import com.rokken.discord.role.RoleManager
 import com.rokken.discord.message.FirstMessage
 import com.rokken.discord.role.GradeRole
@@ -22,6 +24,7 @@ class DiscordAdminCommand: ListenerAdapter() {
         const val SUBCOMMAND_HELP = "help"
         const val SUBCOMMAND_BROADCAST_HELP = "bhelp"
         const val SUBCOMMAND_MIGRATION = "migration"
+        const val SUBCOMMAND_MIGRATION_DONE = "migdone"
 
         private val userOption = OptionData(OptionType.USER, "user", "ユーザー名").setRequired(true)
 
@@ -35,6 +38,8 @@ class DiscordAdminCommand: ListenerAdapter() {
             SubcommandData(SUBCOMMAND_HELP, "幹部コマンドのヘルプを表示する。"),
             SubcommandData(SUBCOMMAND_BROADCAST_HELP, "幹部コマンドのヘルプを全ての人が見えるように表示する。"),
             SubcommandData(SUBCOMMAND_MIGRATION, "年度が変わるときに必ず実行すること。ロール等の更新を行う。")
+                .addOptions(OptionData(OptionType.STRING, "最終確認", "本当にいい？").setRequired(false)),
+            SubcommandData(SUBCOMMAND_MIGRATION_DONE, "Migration 2 週間後に実行してください。")
                 .addOptions(OptionData(OptionType.STRING, "最終確認", "本当にいい？").setRequired(false))
         )
     }
@@ -89,13 +94,42 @@ class DiscordAdminCommand: ListenerAdapter() {
                         event.reply("「卒業する期 = ${rtMsg.first}, 入学する期 = ${rtMsg.second}」この値が正常であれば、\n$msg").setEphemeral(false).queue()
                     }
                     1 -> {
-                        if (options[0].asString == "confirm") {
-                            gr.migrate(true)
-                            event.reply("実行します...").setEphemeral(false).queue()
-                        } else
-                            event.reply(msg).setEphemeral(false).queue()
+                        when (options[0].asString) {
+                            "confirm" -> {
+                                gr.migrate(true)
+                                event.reply("実行します...").setEphemeral(false).queue()
+                                DiscordMigration.run()
+                            }
+                            else -> event.reply(msg).setEphemeral(false).queue()
+                        }
                     }
                     else -> event.reply("引数多すぎ問題発生中。\n $msg").setEphemeral(false).queue()
+                }
+            }
+
+            SUBCOMMAND_MIGRATION_DONE -> {
+                val msg = "/admin migdone confirm でサーバーキックを完了します。"
+                val options = event.options
+                var memsStr = ""
+
+                for (memId in DiscordMigration.getList())
+                    memsStr += "<@$memId>\n"
+
+                when(options.size) {
+                    0 -> event.reply("$memsStr これらの方が回答していません。実行する場合は、\n$msg").setEphemeral(false).queue()
+                    1 -> {
+                        when (options[0].asString) {
+                            "confirm" -> {
+                                event.reply("実行します...").setEphemeral(false).queue()
+                                for (mem in DiscordMigration.getList()) {
+                                    DiscordMain.rokkenGuild.getMemberById(mem)?.let {
+                                        DiscordMain.rokkenGuild.kick(it, "2 週間以内に反応がなかったため kick しました。\n再び参加する場合は幹部に問い合わせましょう。")
+                                    }
+                                }
+                            }
+                            else -> event.reply(msg).setEphemeral(false).queue()
+                        }
+                    }
                 }
             }
 
