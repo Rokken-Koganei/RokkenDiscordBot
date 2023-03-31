@@ -15,7 +15,7 @@ class Main {
         const val APP_NAME = "Rokken Discord Bot"
         const val calendarAddress = ""
 
-        val DIR_PATH = System.getProperty("user.dir") + File.separator + "RokkenDiscordWelcomeBot"
+        val DIR_PATH = System.getProperty("user.dir") + File.separator + "RokkenDiscordBot"
         lateinit var service: Calendar
     }
 
