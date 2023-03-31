@@ -1,6 +1,6 @@
 package com.rokken.discord.command
 
-import com.rokken.discord.RoleManager
+import com.rokken.discord.role.RoleManager
 import com.rokken.discord.message.RoleMessage
 import com.rokken.discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.EmbedBuilder
