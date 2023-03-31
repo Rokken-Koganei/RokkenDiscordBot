@@ -12,7 +12,12 @@ class FirstMessage {
         MemberSelectReactionListener.queue.add(user)
         user.openPrivateChannel().queue { channel ->
             RoleManager().deleteBotMessages(channel)
-            channel.sendMessage("**__ロッ研オンライン部室へようこそ！__**\nこの部室は、交流の場を作りたいという願いのもと、作られました！\nこれから、いくつか質問に答えてくださると助かります！").queue()
+            channel.sendMessage(
+                "**__ロッ研オンライン部室へようこそ！__**\n" +
+                    "この部室は、交流の場を作りたいという願いのもと、作られました！\n" +
+                    "これから出てくる、いくつか質問に答えてください！\n" +
+                        "もしも、リアクションしても反応がなければ @幹部 に連絡しましょう！"
+            ).queue()
             channel.sendMessageEmbeds(createEmbed()).queue {
                 it.addReaction("⭕").queue()
                 it.addReaction("❌").queue()
