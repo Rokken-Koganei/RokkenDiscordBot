@@ -10,7 +10,7 @@ class CalcGrade {
      * @return 何期生か
      */
     fun calcGrade(currentGrade: Int) : Int {
-        val startYear = 2008
+        val startYear = 2007
         val b1Year = calcB1Year(currentGrade)
 
         return b1Year - startYear
