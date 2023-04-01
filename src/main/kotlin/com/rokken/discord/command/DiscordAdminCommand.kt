@@ -4,6 +4,7 @@ import com.rokken.discord.DiscordMain
 import com.rokken.discord.DiscordMigration
 import com.rokken.discord.role.RoleManager
 import com.rokken.discord.message.FirstMessage
+import com.rokken.discord.message.IntentionMessage
 import com.rokken.discord.role.GradeRole
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -91,14 +92,21 @@ class DiscordAdminCommand: ListenerAdapter() {
                 when (options.size) {
                     0 -> {
                         val rtMsg = gr.migrate(false)
-                        event.reply("「卒業する期 = ${rtMsg.first}, 入学する期 = ${rtMsg.second}」この値が正常であれば、\n$msg").setEphemeral(false).queue()
+                        event.reply("「変更前の期 = <@&${rtMsg.first}>, 変更後の期 = ${rtMsg.second}」この値が正常であれば、\n$msg").setEphemeral(false).queue()
                     }
                     1 -> {
                         when (options[0].asString) {
                             "confirm" -> {
-                                gr.migrate(true)
                                 event.reply("実行します...").setEphemeral(false).queue()
+
+                                gr.migrate(true)
                                 DiscordMigration.run()
+                                for (mem in DiscordMigration.getList()) {
+                                    DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
+                                        logger.info("Sending message to ${it?.user?.id}")
+                                        IntentionMessage().send(it.user)
+                                    }
+                                }
                             }
                             else -> event.reply(msg).setEphemeral(false).queue()
                         }
@@ -116,16 +124,21 @@ class DiscordAdminCommand: ListenerAdapter() {
                     memsStr += "<@$memId>\n"
 
                 when(options.size) {
-                    0 -> event.reply("$memsStr これらの方が回答していません。実行する場合は、\n$msg").setEphemeral(false).queue()
+                    0 -> {
+                        IntentionMessage().send(DiscordMain.rokkenGuild.getMemberById(442539918380498964)!!.user)
+                        event.reply("$memsStr これらの方が回答していません。実行する場合は、\n$msg").setEphemeral(false).queue()
+                    }
                     1 -> {
                         when (options[0].asString) {
                             "confirm" -> {
                                 event.reply("実行します...").setEphemeral(false).queue()
                                 for (mem in DiscordMigration.getList()) {
-                                    DiscordMain.rokkenGuild.getMemberById(mem)?.let {
-                                        DiscordMain.rokkenGuild.kick(it, "2 週間以内に反応がなかったため kick しました。\n再び参加する場合は幹部に問い合わせましょう。")
+                                    DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
+                                        DiscordMain.rokkenGuild.kick(it, "2 週間以内に反応がなかったため kick しました。\n再び参加する場合は幹部に問い合わせましょう。").queue()
                                     }
                                 }
+                                DiscordMigration.deleteFile()
+                                event.reply("実行が完了しました。").setEphemeral(false).queue()
                             }
                             else -> event.reply(msg).setEphemeral(false).queue()
                         }
