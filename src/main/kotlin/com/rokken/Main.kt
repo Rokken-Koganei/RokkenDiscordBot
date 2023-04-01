@@ -27,8 +27,8 @@ class Main {
         val discordMain = DiscordMain()
         val reminderMain = ReminderMain()
 
-//        discordMain.start()
-        reminderMain.start()
+        discordMain.start()
+//        reminderMain.start()
     }
 
     private val keyFilePath = "tutorial/key.json"
