@@ -17,11 +17,10 @@ class DiscordMigration {
 
         fun run() {
             // ファイルあったらロード
-            if (Files.exists(path)) {
-                list = loadFile()
+            if (Files.exists(path))
                 return
-            }
 
+            // 無かったら作成
             val members = DiscordMain.rokkenGuild.findMembersWithRoles(DiscordMain.rokkenGuild.getRoleById(RoleManager.MEMBER))
             members.onSuccess {
                 for (mem in it)
@@ -37,6 +36,11 @@ class DiscordMigration {
         fun updateFile(reactedId: String) {
             if (list.remove(reactedId))
                 writeFile()
+        }
+
+        fun deleteFile() {
+            if (Files.exists(path))
+                Files.delete(path)
         }
 
         fun getList() : ArrayList<String> {
@@ -58,21 +62,25 @@ class DiscordMigration {
         }
 
         /**
-         * 移行時に使用するファイルをロードしてロード結果を返す
-         * @return 読み込んだ結果のリスト
+         * 移行時に使用するファイルがあればロードする
          */
-        private fun loadFile() : ArrayList<String> {
+        fun loadFile() {
             val loadList = ArrayList<String>()
 
             try {
+                // ファイルが無かったら処理しない
+                if (!Files.exists(path))
+                    return
+
+                // ファイル読み込み
                 val line = Files.readAllLines(path, charset)
                 for (str in line)
                     loadList.add(str)
+                logger.info("$path is loaded.")
             } catch (e: IOException) {
                 logger.error(e.message)
             }
-
-            return loadList
+            list = loadList
         }
     }
 }
