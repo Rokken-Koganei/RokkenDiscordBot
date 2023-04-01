@@ -164,6 +164,8 @@ class DiscordAdminCommand: ListenerAdapter() {
         embed.addField("`del <userId>`", "幹部権限を指定ユーザーから剥奪します。", true)
         embed.addField("`first <userId>`", "指定ユーザーに初期設定文を DM に送りつけます。", true)
         embed.addField("`help`", "コマンドヘルプを表示します。", true)
+        embed.addField("`migration`", "年度が替わった際にロールなどを代替わりさせる。", true)
+        embed.addField("`migdone`", "migration 実行後に動いていないユーザーを一斉キックする。", true)
 
         return embed.build()
     }
