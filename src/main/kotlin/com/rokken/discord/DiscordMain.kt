@@ -5,6 +5,7 @@ import com.rokken.discord.command.DiscordAdminCommand
 import com.rokken.discord.command.DiscordCommand
 import com.rokken.discord.command.DiscordMemberCommand
 import com.rokken.discord.reaction.GradeSelectReactionListener
+import com.rokken.discord.reaction.IntentionReactionListener
 import com.rokken.discord.reaction.MemberSelectReactionListener
 import com.rokken.discord.reaction.RoleSelectReactionListener
 import net.dv8tion.jda.api.JDA
@@ -41,7 +42,8 @@ class DiscordMain {
                     DiscordJoin(),
                     MemberSelectReactionListener(),
                     GradeSelectReactionListener(),
-                    RoleSelectReactionListener()
+                    RoleSelectReactionListener(),
+                    IntentionReactionListener()
                 )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setActivity(Activity.competing("ロッ研"))
@@ -52,6 +54,8 @@ class DiscordMain {
 
             rokkenGuild = jda.getGuildById(965233617800413265)!!
             addCommand(rokkenGuild)
+
+            DiscordMigration.loadFile()
 
             logger.info("DiscordBot is ready!")
         } catch (e: LoginException) {
