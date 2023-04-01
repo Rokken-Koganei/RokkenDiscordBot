@@ -124,10 +124,8 @@ class DiscordAdminCommand: ListenerAdapter() {
                     memsStr += "<@$memId>\n"
 
                 when(options.size) {
-                    0 -> {
-                        IntentionMessage().send(DiscordMain.rokkenGuild.getMemberById(442539918380498964)!!.user)
-                        event.reply("$memsStr これらの方が回答していません。実行する場合は、\n$msg").setEphemeral(false).queue()
-                    }
+                    0 -> event.reply("$memsStr これらの方が回答していません。実行する場合は、\n$msg").setEphemeral(false).queue()
+
                     1 -> {
                         when (options[0].asString) {
                             "confirm" -> {
