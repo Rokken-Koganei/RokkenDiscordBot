@@ -23,13 +23,13 @@ class CalcGrade {
      */
     private fun calcB1Year(currentGrade: Int) : Int {
         val date = LocalDate.now()
-        val nowYear = date.year
+        var nowYear = date.year
         val nowMonth = date.month
 
         // 月が 1-3 の間以外なら
         // 年を 1 増やす
-        if (nowMonth > Month.MARCH)
-            nowYear + 1
+        if (nowMonth.value > Month.MARCH.value)
+            nowYear += 1
 
         // 1 年生の時の年度を返す
         return nowYear - currentGrade
