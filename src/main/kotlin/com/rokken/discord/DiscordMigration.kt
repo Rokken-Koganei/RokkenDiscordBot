@@ -17,8 +17,10 @@ class DiscordMigration {
 
         fun run() {
             // ファイルあったらロード
-            if (Files.exists(path))
+            if (Files.exists(path)) {
+                loadFile()
                 return
+            }
 
             // 無かったら作成
             val members = DiscordMain.rokkenGuild.findMembersWithRoles(DiscordMain.rokkenGuild.getRoleById(RoleManager.MEMBER))
