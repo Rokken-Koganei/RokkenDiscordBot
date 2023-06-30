@@ -102,6 +102,7 @@ class DiscordAdminCommand: ListenerAdapter() {
                                 gr.migrate(true)
                                 DiscordMigration.run()
                                 for (mem in DiscordMigration.getList()) {
+                                    logger.info("Looking for $mem")
                                     DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
                                         logger.info("Sending message to ${it?.user?.id}")
                                         IntentionMessage().send(it.user)
@@ -132,6 +133,7 @@ class DiscordAdminCommand: ListenerAdapter() {
                                 event.reply("実行します...").setEphemeral(false).queue()
                                 for (mem in DiscordMigration.getList()) {
                                     DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
+                                        if (it.idLong == 442539918380498964) return@queue
                                         DiscordMain.rokkenGuild.kick(it, "2 週間以内に反応がなかったため kick しました。\n再び参加する場合は幹部に問い合わせましょう。").queue()
                                     }
                                 }
