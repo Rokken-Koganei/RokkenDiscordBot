@@ -15,19 +15,24 @@ import java.awt.Color
 class DiscordMemberCommand: ListenerAdapter() {
     companion object {
         const val QUESTION_CHANNEL = 983646310693498890
+        const val MINECRAFT_ROLE = 1125053904044965978
         const val COMMAND_NAME = "member"
 
         const val SUBCOMMAND_RESET = "reset"
         const val SUBCOMMAND_QUESTION = "question"
         const val SUBCOMMAND_HELP = "help"
+        const val SUBCOMMAND_MINECRAFT = "minecraft"
 
         private val questionOption = OptionData(OptionType.STRING, "question", "質問内容")
+        private val minecraftOption = OptionData(OptionType.STRING, "join-exit", "参加or退会").setRequired(true)
 
         val SUB_CMD_LIST = mutableListOf(
             SubcommandData(SUBCOMMAND_RESET, "楽器ロールをリセットして再選択する。"),
             SubcommandData(SUBCOMMAND_QUESTION, "質問箱に匿名で質問を投げれます。")
                 .addOptions(questionOption),
-            SubcommandData(SUBCOMMAND_HELP, "部員コマンドのヘルプを表示する。")
+            SubcommandData(SUBCOMMAND_HELP, "部員コマンドのヘルプを表示する。"),
+            SubcommandData(SUBCOMMAND_MINECRAFT, "マイクラサーバーに参加または退会する。")
+                .addOptions(minecraftOption)
         )
     }
 
@@ -65,6 +70,26 @@ class DiscordMemberCommand: ListenerAdapter() {
 
             SUBCOMMAND_HELP -> event.replyEmbeds(helpEmbed()).setEphemeral(true).queue()
 
+            SUBCOMMAND_MINECRAFT -> {
+                val option = event.options[0].asString
+                val member = event.member!!
+                val role = guild.getRoleById(MINECRAFT_ROLE)!!
+
+                when (option) {
+                    "join" -> {
+                        RoleManager().addRole(guild, member, role)
+                        event.reply("マイクラロールを付与しました。").setEphemeral(true).queue()
+                    }
+
+                    "exit" -> {
+                        RoleManager().delRole(guild, member, role)
+                        event.reply("マイクラロールを剥奪しました。").setEphemeral(true).queue()
+                    }
+
+                    else -> event.reply("不明なオプションです。join または exit を入力してください。").setEphemeral(true).queue()
+                }
+            }
+
             else -> event.reply("不明なコマンドです。\n/$COMMAND_NAME $SUBCOMMAND_HELP でヘルプを表示します。").setEphemeral(true).queue()
         }
 
@@ -81,6 +106,8 @@ class DiscordMemberCommand: ListenerAdapter() {
 
         embed.addField("`$SUBCOMMAND_RESET`", "楽器ロールをリセットして再選択する。", true)
         embed.addField("`help`", "コマンドヘルプを表示します。", true)
+        embed.addField("`$SUBCOMMAND_QUESTION`", "質問箱に匿名で質問を投げれます。", true)
+        embed.addField("`$SUBCOMMAND_MINECRAFT`", "マイクラサーバーに参加または退会する。", true)
 
         return embed.build()
     }
