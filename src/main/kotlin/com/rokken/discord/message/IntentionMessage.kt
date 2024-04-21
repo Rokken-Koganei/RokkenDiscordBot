@@ -20,6 +20,18 @@ class IntentionMessage {
         }
     }
 
+    fun sendOb(user: User) {
+        user.openPrivateChannel().queue { channel ->
+            channel.sendMessage(
+                "**__ロック研究会オンライン部室継続アンケート__**\n" +
+                        "ロック研究会オンライン部室を利用していただいてありがとうございます！\n" +
+                        "あなたはおそらく OB になる人でしょう。もし、OB にならない方だったら幹部までお問い合わせください。\n" +
+                        "また、ロック研究会 OB 会が存在するので入っていなければ是非入ってください！\n" +
+                        "https://discord.gg/kQwaZWPDuj"
+            ).queue()
+        }
+    }
+
     private fun createEmbed(): MessageEmbed {
         val embed = EmbedBuilder()
 

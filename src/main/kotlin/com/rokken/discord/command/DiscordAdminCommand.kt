@@ -2,8 +2,8 @@ package com.rokken.discord.command
 
 import com.rokken.discord.DiscordMain
 import com.rokken.discord.DiscordMigration
+import com.rokken.discord.listener.JoinMessageListener
 import com.rokken.discord.role.RoleManager
-import com.rokken.discord.message.FirstMessage
 import com.rokken.discord.message.IntentionMessage
 import com.rokken.discord.role.GradeRole
 import net.dv8tion.jda.api.EmbedBuilder
@@ -76,7 +76,7 @@ class DiscordAdminCommand: ListenerAdapter() {
 
             SUBCOMMAND_FIRST -> {
                 val user = event.options[0].asUser
-                FirstMessage().send(user)
+                JoinMessageListener().send(user)
                 event.reply("<@${user.id}> に、初期設定文を送信しました。").setEphemeral(true).queue()
             }
 
@@ -90,22 +90,27 @@ class DiscordAdminCommand: ListenerAdapter() {
                 val msg = "/admin migration confirm で世代交代プログラムが実行されます。"
 
                 when (options.size) {
+                    // 引数がない場合は、実行前の確認を行う
                     0 -> {
                         val rtMsg = gr.migrate(false)
-                        event.reply("「変更前の期 = <@&${rtMsg.first}>, 変更後の期 = ${rtMsg.second}」この値が正常であれば、\n$msg").setEphemeral(false).queue()
+                        event.reply("「変更前の期 = <@&${rtMsg.first.id}>, 変更後の期 = ${rtMsg.second}」この値が正常であれば、\n$msg").setEphemeral(false).queue()
                     }
+                    // 引数が confirm の場合は、ロール名変更、継続確認のメッセージを送る。
                     1 -> {
                         when (options[0].asString) {
                             "confirm" -> {
                                 event.reply("実行します...").setEphemeral(false).queue()
 
-                                gr.migrate(true)
+                                val rtMsg = gr.migrate(true)
                                 DiscordMigration.run()
                                 for (mem in DiscordMigration.getList()) {
                                     logger.info("Looking for $mem")
                                     DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
-                                        logger.info("Sending message to ${it?.user?.id}")
-                                        IntentionMessage().send(it.user)
+                                        logger.info("Sending message to ${it?.user?.name} (${it?.user?.id})")
+                                        if (it.roles.contains(rtMsg.first))
+                                            IntentionMessage().sendOb(it.user)
+                                        else
+                                            IntentionMessage().send(it.user)
                                     }
                                 }
                             }

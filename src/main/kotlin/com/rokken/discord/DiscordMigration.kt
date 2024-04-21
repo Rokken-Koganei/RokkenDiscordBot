@@ -46,6 +46,7 @@ class DiscordMigration {
         }
 
         fun getList() : ArrayList<String> {
+            if (list.isEmpty()) loadFile()
             return list
         }
 

@@ -21,7 +21,7 @@ class GradeRole {
      * 期を更新するために使う。
      * @return 卒業するロール ID, 新入生の期
      */
-    fun migrate(isRun: Boolean): Pair<String, Int> {
+    fun migrate(isRun: Boolean): Pair<Role, Int> {
         // 卒業する人の期を求める
         val gradGrade = cg.calcGrade(5)
         // 変更対象のロールを検索
@@ -33,7 +33,7 @@ class GradeRole {
             logger.info("ロールのマイグレーションが完了しました。")
         }
 
-        return Pair(termRole.id, gradGrade + 4)
+        return Pair(termRole, gradGrade + 4)
     }
 
     /**

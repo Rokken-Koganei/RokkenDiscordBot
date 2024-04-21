@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.awt.Color
 
 class JoinMessageListener : ListenerAdapter() {
-    private val gr = GradeRole()
     private val roleManager = RoleManager()
     private val queue = ArrayList<User>()
 
@@ -29,9 +28,16 @@ class JoinMessageListener : ListenerAdapter() {
         sendMessage()
     }
 
+    fun send(user: User) {
+        this.user = user
+        queue.add(user)
+        sendMessage()
+    }
+
     // ユーザーがリアクションを選択したときに呼び出される
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         val user = event.user
+        val gr = GradeRole()
 
         // bot が追加してたら何もしない
         val isBot = user?.isBot ?: true // null check
@@ -69,14 +75,14 @@ class JoinMessageListener : ListenerAdapter() {
             channel.sendMessage(
                 "**__ロッ研オンライン部室へようこそ！__**\n" +
                         "この部室は、交流の場を作りたいという願いのもと、作られました！\n" +
-                        "これから出てくる、いくつか質問に答えてください！\n" +
+                        "あなたが何期生かのロールを付けるため、次の質問に答えてください！\n" +
                         "もしも、リアクションしても反応がなければ @幹部 に連絡しましょう！"
             ).queue()
 
             // 期を選択するメッセージ
             channel.sendMessageEmbeds(createEmbed()).queue {
                 for (emoji in listOf("1️⃣", "2️⃣", "3️⃣", "4️⃣")) {
-                    it.addReaction("emoji").queue()
+                    it.addReaction(emoji).queue()
                 }
             }
         }
@@ -84,6 +90,7 @@ class JoinMessageListener : ListenerAdapter() {
 
     private fun createEmbed(): MessageEmbed {
         val embed = EmbedBuilder()
+        val gr = GradeRole()
 
         embed.setColor(Color.GREEN)
 
@@ -92,7 +99,7 @@ class JoinMessageListener : ListenerAdapter() {
 
         val grades = mapOf(1 to "one", 2 to "two", 3 to "three", 4 to "four")
         for (grade in grades) {
-            embed.addField("${grade.key}年生(<@&${gr.getTermRole(grade.key).id})", ":${grade.value}: を選択", true)
+            embed.addField("${grade.key}年生(${gr.getTermRole(grade.key).name})", ":${grade.value}: を選択", true)
         }
 
         return embed.build()

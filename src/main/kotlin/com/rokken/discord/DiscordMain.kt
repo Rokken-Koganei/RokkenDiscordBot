@@ -4,6 +4,7 @@ import com.rokken.data.DataManager
 import com.rokken.discord.command.DiscordAdminCommand
 import com.rokken.discord.command.DiscordCommand
 import com.rokken.discord.command.DiscordMemberCommand
+import com.rokken.discord.listener.JoinMessageListener
 import com.rokken.discord.reaction.GradeSelectReactionListener
 import com.rokken.discord.reaction.IntentionReactionListener
 import com.rokken.discord.reaction.MemberSelectReactionListener
@@ -22,6 +23,7 @@ class DiscordMain {
     companion object {
         lateinit var rokkenGuild: Guild
     }
+    private val serverId = 965233617800413265
     private val botToken = DataManager.getBotToken()
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
     private lateinit var jda: JDA
@@ -36,13 +38,14 @@ class DiscordMain {
                     GatewayIntent.DIRECT_MESSAGE_REACTIONS, GatewayIntent.DIRECT_MESSAGES
                 )
                 .addEventListeners(
-                    DiscordCommand(),
+//                    DiscordCommand(),
                     DiscordAdminCommand(),
                     DiscordMemberCommand(),
-                    DiscordJoin(),
-                    MemberSelectReactionListener(),
-                    GradeSelectReactionListener(),
-                    RoleSelectReactionListener(),
+//                    DiscordJoin(),
+//                    MemberSelectReactionListener(),
+//                    GradeSelectReactionListener(),
+//                    RoleSelectReactionListener(),
+                    JoinMessageListener(),
                     IntentionReactionListener()
                 )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
@@ -52,7 +55,7 @@ class DiscordMain {
 
             jda.awaitReady()
 
-            rokkenGuild = jda.getGuildById(965233617800413265)!!
+            rokkenGuild = jda.getGuildById(serverId)!!
             addCommand(rokkenGuild)
 
             DiscordMigration.loadFile()
