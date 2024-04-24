@@ -1,5 +1,6 @@
 package com.rokken.discord.message
 
+import com.rokken.discord.role.RoleManager
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User
@@ -8,6 +9,7 @@ import java.awt.Color
 class IntentionMessage {
     fun send(user: User) {
         user.openPrivateChannel().queue { channel ->
+            RoleManager().deleteLatestMessage(channel, 2)
             channel.sendMessage(
                 "**__ロック研究会オンライン部室継続アンケート__**\n" +
                     "ロック研究会オンライン部室を利用していただいてありがとうございます！\n" +
@@ -22,6 +24,7 @@ class IntentionMessage {
 
     fun sendOb(user: User) {
         user.openPrivateChannel().queue { channel ->
+            RoleManager().deleteLatestMessage(channel, 2)
             channel.sendMessage(
                 "**__ロック研究会オンライン部室継続アンケート__**\n" +
                         "ロック研究会オンライン部室を利用していただいてありがとうございます！\n" +

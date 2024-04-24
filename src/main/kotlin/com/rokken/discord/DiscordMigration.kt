@@ -2,6 +2,10 @@ package com.rokken.discord
 
 import com.rokken.Main
 import com.rokken.discord.role.RoleManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.Files
@@ -15,6 +19,18 @@ class DiscordMigration {
         private val charset = Charset.forName("UTF-8")
         private var list = ArrayList<String>()
 
+//        async fun を作りたい
+//        fun run() {
+//            GlobalScope.launch {
+//                // ファイルあったらロード
+//
+//                // 無かったら作成
+//
+//                // ロード
+//            }
+//        }
+
+
         fun run() {
             // ファイルあったらロード
             if (Files.exists(path)) {
@@ -22,12 +38,19 @@ class DiscordMigration {
                 return
             }
 
-            // 無かったら作成
-            val members = DiscordMain.rokkenGuild.findMembersWithRoles(DiscordMain.rokkenGuild.getRoleById(RoleManager.MEMBER))
-            members.onSuccess {
-                for (mem in it)
-                    list.add(mem.id)
-                writeFile()
+            val job = CoroutineScope(Dispatchers.Default).launch {
+                // 無かったら作成
+                val members = DiscordMain.rokkenGuild.findMembersWithRoles(DiscordMain.rokkenGuild.getRoleById(RoleManager.MEMBER))
+                members.onSuccess {
+                    for (mem in it)
+                        list.add(mem.id)
+                    writeFile()
+                }
+            }
+
+            // TODO コルーチンごり押しすぎる
+            while (!job.isCompleted) {
+                Thread.sleep(100)
             }
         }
 

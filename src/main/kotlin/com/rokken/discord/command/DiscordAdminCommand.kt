@@ -6,6 +6,9 @@ import com.rokken.discord.listener.JoinMessageListener
 import com.rokken.discord.role.RoleManager
 import com.rokken.discord.message.IntentionMessage
 import com.rokken.discord.role.GradeRole
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
@@ -14,6 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import java.awt.Color
+import kotlin.math.log
 
 class DiscordAdminCommand: ListenerAdapter() {
     companion object {
@@ -101,18 +105,27 @@ class DiscordAdminCommand: ListenerAdapter() {
                             "confirm" -> {
                                 event.reply("実行します...").setEphemeral(false).queue()
 
+                                // TODO コマンド処理あたりがgmks
                                 val rtMsg = gr.migrate(true)
                                 DiscordMigration.run()
+
                                 for (mem in DiscordMigration.getList()) {
                                     logger.info("Looking for $mem")
-                                    DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
-                                        logger.info("Sending message to ${it?.user?.name} (${it?.user?.id})")
-                                        if (it.roles.contains(rtMsg.first))
-                                            IntentionMessage().sendOb(it.user)
-                                        else
-                                            IntentionMessage().send(it.user)
+                                    try {
+                                        DiscordMain.rokkenGuild.retrieveMemberById(mem).queue {
+                                            logger.info("Sending message to ${it?.user?.name} (${it?.user?.id})")
+                                            if (it.roles.contains(rtMsg.first))
+                                                IntentionMessage().sendOb(it.user)
+                                            else
+                                                IntentionMessage().send(it.user)
+                                        }
+                                    } catch (e: Exception) {
+                                        logger.error("Error occurred while sending message to $mem")
+                                        logger.error(e.message)
                                     }
                                 }
+                                event.channel.sendMessage("実行が完了しました。").queue()
+                                logger.info("Migration is done.")
                             }
                             else -> event.reply(msg).setEphemeral(false).queue()
                         }

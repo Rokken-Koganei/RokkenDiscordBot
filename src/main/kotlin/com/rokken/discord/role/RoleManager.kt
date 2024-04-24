@@ -62,10 +62,12 @@ class RoleManager {
         }
     }
 
-    fun deleteLatestMessage(channel: MessageChannel) {
+    fun deleteLatestMessage(channel: MessageChannel, count: Int = 1) {
         val history = MessageHistory(channel)
-        val msg = history.retrievePast(1).complete()
-
-        channel.deleteMessageById(msg[0].id).complete()
+        history.retrievePast(count).queue {
+            it.forEach { msg ->
+                channel.deleteMessageById(msg.id).queue()
+            }
+        }
     }
 }
