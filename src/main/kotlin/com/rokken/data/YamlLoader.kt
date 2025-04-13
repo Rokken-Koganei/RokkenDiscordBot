@@ -27,13 +27,14 @@ class YamlLoader {
 
             logger.info("Loading com.rokken.data from yml...")
             val botToken = data["bot-token"]!!.toString()
+            val serverId = data["server-id"]!!.toString()
 
             val databaseUrl = data["database-url"]!!.toString()
             val databaseName = data["database-name"]!!.toString()
             val databaseUser = data["database-user"]!!.toString()
             val databasePassword = data["database-password"]!!.toString()
 
-            DataManager.initializeData(botToken, databaseUrl, databaseName, databaseUser, databasePassword)
+            DataManager.initializeData(botToken, serverId, databaseUrl, databaseName, databaseUser, databasePassword)
             logger.info("Data loaded!")
         }
     }

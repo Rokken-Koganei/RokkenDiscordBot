@@ -25,7 +25,7 @@ class Main {
         ResourceExporter.export()
         YamlLoader.load(DIR_PATH + File.separator + "config.yml")
         val discordMain = DiscordMain()
-        val reminderMain = ReminderMain()
+        // val reminderMain = ReminderMain()
 
         discordMain.start()
 //        reminderMain.start()

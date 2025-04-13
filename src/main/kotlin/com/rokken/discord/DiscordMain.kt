@@ -23,7 +23,7 @@ class DiscordMain {
     companion object {
         lateinit var rokkenGuild: Guild
     }
-    private val serverId = 965233617800413265
+    private val serverId = DataManager.getServerId()
     private val botToken = DataManager.getBotToken()
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
     private lateinit var jda: JDA
